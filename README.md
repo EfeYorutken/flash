@@ -9,3 +9,8 @@ TODO
 - divide the code into smaller files
 - clear the screen after every answer
 - feedback based on weather or not the answer was correct
+# the deck file
+simple txt file that abides by the following rulse
+1. each line is a card
+1. each line has 3 parts, each seperated by a comma
+- back of the card,front of the card,"n" if you have not learned it yet, "y" if learned
