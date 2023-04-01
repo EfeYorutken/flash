@@ -124,7 +124,7 @@ local display_string_in_card = function(str, width, margin)
 
 end
 --
--- given a deck, converts it to a multi line string with the appropriate formatting
+-- given a deck, converts it to a mult line string with the appropriate formatting
 -- and writes the string to the given file
 local update_deck_if_learned = function(path_to_file, updated_deck)
 	local deck_as_string = ""
@@ -141,10 +141,9 @@ local update_deck_if_learned = function(path_to_file, updated_deck)
 
 end
 
--- shuffles the table that contins "cards"
 local shuffle_deck = function(deck)
 	for i = 1, #deck do
-		local index = math.random() % #deck + 1
+		local index = math.random(1,#deck)
 		local temp = deck[i]
 		deck[i] = deck[index]
 		deck[index] = temp
@@ -180,6 +179,7 @@ local test_user_on_deck = function(deck, width,margin, ask_known)
 
 			if user_ans == answer then
 				score = score + 1
+				card["learned"] = "y"
 			end
 
 		end
@@ -203,6 +203,7 @@ local test_user_on_deck = function(deck, width,margin, ask_known)
 
 				if user_ans == answer then
 					score = score + 1
+				card["learned"] = "y"
 				end
 
 			end
@@ -213,7 +214,6 @@ local test_user_on_deck = function(deck, width,margin, ask_known)
 
 end
 
--- main function that get ran when needs be
 test = function(path_to_file, card_width, card_margin, ask_knowns)
 	local txt = read_deck(path_to_file)
 
@@ -221,12 +221,13 @@ test = function(path_to_file, card_width, card_margin, ask_knowns)
 	local num_of_cards = #t
 
 	local deck = create_deck_from_file(path_to_file)
+	shuffle_deck(deck)
 
 	local res = test_user_on_deck(deck,card_width,card_margin, ask_knowns)
 
-	if not ask_knowns then
-		update_deck_if_learned(path_to_file, deck)
-	end
+	if ask_knowns then
+	update_deck_if_learned(path_to_file, deck)
+end
 
 	return {score = res, success = res/num_of_cards}
 
